@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>마음 은하계 (Mind Galaxy) - 최종 완성 프로토타입</title>
+    <title>마음 은하계 (Mind Galaxy) - 최종 무결점 프로토타입</title>
     <style>
         body {
             margin: 0; background-color: #0b0b16; color: #ffffff;
@@ -28,7 +28,7 @@
             box-shadow: 0 10px 40px rgba(0,0,0,0.5); max-height: 85vh; transition: width 0.3s ease;
         }
         .sidebar.active { display: flex; }
-        .sidebar.collapsed { width: 60px; padding: 20px 5px; }
+        .sidebar.collapsed { width: 65px; padding: 20px 5px; }
         .sidebar.collapsed .hide-on-collapse { display: none; }
         
         .friend-list-box { flex: 1; overflow-y: auto; margin-top: 15px; }
@@ -70,6 +70,7 @@
             color: white; box-sizing: border-box; font-size: 0.9rem;
         }
         .remember-box { display: flex; align-items: center; justify-content: flex-start; margin: 6px 2px; font-size: 0.8rem; color: #b2bec3; }
+        .remember-box input { margin-right: 6px; width: 15px; height: 15px; }
         .flex-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 10px 0; }
         .coin-bar { font-size: 1.1rem; color: #ffeaa7; font-weight: bold; margin: 8px 0; }
 
@@ -80,7 +81,7 @@
         }
         .list-item span { font-size: 0.7rem; color: #b2bec3; display: block; margin-top: 2px; }
 
-        /* 🪐 2D 파스텔 행성 및 무늬/오브젝트 레이어 물리 안착 위치 보정 */
+        /* 🪐 2D 파스텔 행성 및 보정 */
         .stage-box { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 15px; border-radius: 20px; margin: 10px 0; position: relative; }
         .view-canvas { position: relative; width: 230px; height: 230px; margin: 0 auto; display: flex; justify-content: center; align-items: center; overflow: visible; }
         
@@ -89,7 +90,7 @@
             box-shadow: inset -12px -12px 25px rgba(0,0,0,0.65); transition: 0.4s ease; z-index: 5;
         }
 
-        /* 🎨 정교해진 행성 고유 자연주의 무늬 패턴 */
+        /* 🎨 텍스처 무늬 패턴 리뉴얼 */
         .pattern-crater::before, .pattern-crater::after { content: ''; position: absolute; background: rgba(0,0,0,0.08); border-radius: 50%; box-shadow: inset 1px 1px 3px rgba(0,0,0,0.2); }
         .pattern-crater::before { width: 22px; height: 16px; top: 20px; left: 15px; }
         .pattern-crater::after { width: 28px; height: 20px; bottom: 25px; right: 20px; }
@@ -113,15 +114,15 @@
         .pastel-blue { background: #b5deff; box-shadow: inset -12px -12px 25px rgba(0,0,0,0.5), 0 0 20px rgba(181,222,255,0.3); }  
         .pastel-red { background: #ffbfa3; box-shadow: inset -12px -12px 25px rgba(0,0,0,0.5), 0 0 20px rgba(255,191,163,0.3); }  
 
-        /* 🛒 22종 대확장 데코 및 궤도 통과 방지 스케일링 보정 */
+        /* 🛒 22종 대확장 데코 배치 수치 고정 */
         .decor { display: none; position: absolute; pointer-events: none; }
-        .dec-ring { width: 190px; height: 40px; border: 4px solid rgba(255, 234, 167, 0.5); border-radius: 50%; transform: rotate(-12deg); z-index: 6; }
+        .dec-ring { width: 185px; height: 42px; border: 4px solid rgba(255, 234, 167, 0.5); border-radius: 50%; transform: rotate(-12deg); z-index: 6; }
         .dec-moon { width: 16px; height: 16px; background: #f5f6fa; border-radius: 50%; box-shadow: 0 0 6px #fff; z-index: 8; animation: orbit2D 7s linear infinite; }
 
-        /* 식물 지표면 밀착(bottom 배치) 및 고유 포지션 정밀 설정 */
+        /* 식물 지표면 안착 수치 정밀 수정 */
         .dec-alien { font-size: 20px; top: 25px; left: 45px; z-index: 10; }
         .dec-alien_blue { font-size: 20px; top: 75px; right: 40px; z-index: 10; }
-        .dec-flower_red { font-size: 18px; bottom: 50px; left: 45px; z-index: 10; } /* 화초 하단 밀착 */
+        .dec-flower_red { font-size: 18px; bottom: 50px; left: 45px; z-index: 10; } 
         .dec-flower_gold { font-size: 18px; bottom: 50px; right: 45px; z-index: 10; }
         .dec-crystal { font-size: 18px; top: 50px; left: 40px; z-index: 10; }
         .dec-tree { font-size: 20px; bottom: 52px; left: 75px; z-index: 10; }
@@ -238,7 +239,7 @@
                 <div class="view-canvas">
                     <div id="my-ring" class="decor dec-ring"></div>
                     <div id="my-moon" class="decor dec-moon"></div>
-                    <div id="my-alien" class="decor my-item dec-alien">👽</div>
+                    <div id="my-alien" class="decor my-item dec-alien">Alien</div>
                     <div id="my-alien_blue" class="decor my-item dec-alien_blue">👾</div>
                     <div id="my-flower_red" class="decor my-item dec-flower_red">🌹</div>
                     <div id="my-flower_gold" class="decor my-item dec-flower_gold">🌻</div>
@@ -332,7 +333,6 @@
             <h2 id="friend-title">-의 행성 궤도</h2>
             <div class="stage-box">
                 <div class="meteor-shower-container" id="milkyway-particle-zone"></div>
-
                 <div class="view-canvas">
                     <div id="friend-ring" class="decor dec-ring"></div>
                     <div id="friend-moon" class="decor dec-moon"></div>
@@ -361,7 +361,6 @@
                     <div id="friend-sphere" class="sphere pastel-gray"></div>
                 </div>
             </div>
-
             <button class="btn" style="width:100%; background: linear-gradient(45deg, #ff00cc, #7b2ff7);" onclick="voteFriendAndEffect()">✨ 응원의 은하 빔 발사 (+20별 포상)</button>
             <button class="btn outline" style="width:100%; margin-top:10px;" onclick="openWindow('win-dashboard')">내 기지로 복귀</button>
         </div>
@@ -369,4 +368,353 @@
     </div>
 
     <script>
-        // 네트워크 가상 인메모리 DB 씨드맵
+        if (!localStorage.getItem('NET_GALAXY_SERVER_V7')) {
+            const seed = {
+                'tester1': { pw: '1234', color: 'pastel-green', pattern: 'pattern-stripe', coins: 300, items: ['ring','alien'], equipped: ['ring','alien'], cleared: [], visitor: 12, friends: [], incomingRequests: [], sentRequests: [] },
+                'tester2': { pw: '1234', color: 'pastel-red', pattern: 'pattern-nebula', coins: 150, items: ['moon'], equipped: ['moon'], cleared: [], visitor: 40, friends: [], incomingRequests: [], sentRequests: [] }
+            };
+            localStorage.setItem('NET_GALAXY_SERVER_V7', JSON.stringify(seed));
+        }
+        function getServer() { return JSON.parse(localStorage.getItem('NET_GALAXY_SERVER_V7')); }
+        function saveServer(db) { localStorage.setItem('NET_GALAXY_SERVER_V7', JSON.stringify(db)); }
+
+        let userSession = null;
+        let activeFriendData = null;
+        let isSidebarCollapsed = false;
+
+        function syncUIWithCoins() {
+            if (!userSession) return;
+            document.getElementById('pill-coin').innerText = `⭐ 별: ${userSession.coins}개`;
+            const dashCoin = document.getElementById('dash-coin');
+            if(dashCoin) dashCoin.innerText = userSession.coins;
+        }
+
+        function openWindow(winId) {
+            document.querySelectorAll('.window').forEach(w => w.classList.remove('active'));
+            document.getElementById(winId).classList.add('active');
+
+            if (userSession) {
+                let db = getServer();
+                userSession = { id: userSession.id, ...db[userSession.id] };
+                syncUIWithCoins();
+                renderPlanetView('my', userSession.color, userSession.pattern, userSession.equipped);
+                updateSidebarFriends();
+                renderRequestsUI();
+            }
+
+            if (winId === 'win-dashboard') {
+                document.getElementById('dash-title').innerText = `${userSession.id} 관제소`;
+                document.getElementById('dash-visitor').innerText = userSession.visitor;
+                renderInventoryUI();
+            }
+            if (winId === 'win-login') {
+                const savedId = localStorage.getItem('GALAXY_REMEMBERED_ID');
+                if (savedId) { document.getElementById('login-id').value = savedId; document.getElementById('login-remember').checked = true; }
+            }
+            if (winId === 'win-shop') { updateShopPage(); }
+            if (winId === 'win-test') { startTest(); }
+            if (winId === 'win-quest') { renderQuestList(); }
+        }
+
+        function toggleSidebarSize() {
+            const sidebar = document.getElementById('app-sidebar');
+            isSidebarCollapsed = !isSidebarCollapsed;
+            if (isSidebarCollapsed) sidebar.classList.add('collapsed');
+            else sidebar.classList.remove('collapsed');
+        }
+
+        function appRegister(e) {
+            e.preventDefault();
+            const id = document.getElementById('reg-id').value.trim();
+            const pw = document.getElementById('reg-pw').value;
+            const confirm = document.getElementById('reg-pw-confirm').value;
+            if(pw !== confirm) return alert('비밀번호가 일치 창과 다릅니다.');
+
+            let db = getServer();
+            if(db[id]) return alert('중복된 ID가 존재합니다. 다른 아이디로 변경해 주세요!');
+
+            db[id] = { pw: pw, color: 'pastel-gray', pattern: 'pattern-crater', coins: 150, items: [], equipped: [], cleared: [], visitor: 0, friends: [], incomingRequests: [], sentRequests: [] };
+            saveServer(db);
+            alert('주민 등록 완료!');
+            openWindow('win-login');
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const id = document.getElementById('login-id').value.trim();
+            const pw = document.getElementById('login-pw').value;
+            const rem = document.getElementById('login-remember').checked;
+
+            let db = getServer();
+            if(!db[id] || db[id].pw !== pw) return alert('ID 또는 PW 정보가 유효하지 않습니다.');
+
+            if(rem) localStorage.setItem('GALAXY_REMEMBERED_ID', id);
+            else localStorage.removeItem('GALAXY_REMEMBERED_ID');
+
+            localStorage.setItem('GALAXY_CURRENT_SESSION_USER', id);
+            executeLoginSession(id, db[id]);
+        }
+
+        function executeLoginSession(id, userData) {
+            userSession = { id: id, ...userData };
+            document.getElementById('pill-user').innerText = `🛰️ 관제사: ${userSession.id}`;
+            document.getElementById('pill-coin').style.display = 'block';
+            document.getElementById('app-sidebar').classList.add('active'); 
+            openWindow('win-dashboard');
+        }
+
+        function appLogout() {
+            localStorage.removeItem('GALAXY_CURRENT_SESSION_USER');
+            userSession = null;
+            document.getElementById('pill-user').innerText = `🛰️ 연결: 미탑승`;
+            document.getElementById('pill-coin').style.display = 'none';
+            document.getElementById('app-sidebar').classList.remove('active');
+            openWindow('win-home');
+        }
+
+        function renderPlanetView(prefix, colorKey, patternKey, equippedArray) {
+            const sphere = document.getElementById(`${prefix}-sphere`);
+            if(!sphere) return;
+            sphere.className = `sphere ${colorKey || 'pastel-gray'} ${patternKey || 'pattern-crater'}`;
+
+            document.getElementById(`${prefix}-ring`).style.display = 'none';
+            document.getElementById(`${prefix}-moon`).style.display = 'none';
+            document.querySelectorAll(`.${prefix}-item`).forEach(el => el.style.display = 'none');
+
+            if (equippedArray && Array.isArray(equippedArray)) {
+                equippedArray.forEach(itemId => {
+                    const target = document.getElementById(`${prefix}-${itemId}`);
+                    if (target) target.style.display = 'block';
+                });
+            }
+        }
+
+        function changePlanetPattern(patternClass) {
+            if(!userSession) return;
+            userSession.pattern = patternClass;
+            let db = getServer();
+            db[userSession.id].pattern = patternClass;
+            saveServer(db);
+            renderPlanetView('my', userSession.color, userSession.pattern, userSession.equipped);
+            alert('행성에 새로운 무늬가 적용되었습니다!');
+            openWindow('win-dashboard');
+        }
+
+        function renderInventoryUI() {
+            const block = document.getElementById('inventory-container'); block.innerHTML = '';
+            if(!userSession.items || userSession.items.length === 0) {
+                block.innerHTML = `<span style="color:#636e72; font-size:0.8rem;">가방이 비어 있습니다.</span>`; return;
+            }
+            userSession.items.forEach(itemId => {
+                const prod = shopProducts.find(p => p.id === itemId); if(!prod) return;
+                const itemBadge = document.createElement('div');
+                itemBadge.style.cssText = "background:rgba(255,255,255,0.08); padding:6px 10px; border-radius:8px; border:1px solid rgba(255,255,255,0.15); display:flex; align-items:center; gap:8px; font-size:0.8rem;";
+                const isEquipped = userSession.equipped.includes(itemId);
+                itemBadge.innerHTML = `<span>${prod.icon} ${prod.name}</span><button class="btn-small" style="background:${isEquipped ? '#ff7675':'#2ed573'};" onclick="toggleEquip('${itemId}')">${isEquipped ? '해제':'장착'}</button>`;
+                block.appendChild(itemBadge);
+            });
+        }
+
+        function toggleEquip(itemId) {
+            let db = getServer(); const idx = userSession.equipped.indexOf(itemId);
+            if(idx > -1) userSession.equipped.splice(idx, 1); else userSession.equipped.push(itemId);
+            db[userSession.id].equipped = userSession.equipped; saveServer(db);
+            renderPlanetView('my', userSession.color, userSession.pattern, userSession.equipped); renderInventoryUI();
+        }
+
+        function sendFriendRequest() {
+            const fId = document.getElementById('side-friend-id').value.trim();
+            if(!fId) return alert('친구의 정확한 ID를 입력해 주세요.');
+            if(fId === userSession.id) return alert('자기 자신에게는 신청할 수 없습니다.');
+
+            let db = getServer();
+            if(!db[fId]) return alert('입력하신 ID를 찾을 수 없습니다. 철자를 대조해 보세요.');
+            if(userSession.friends.includes(fId)) return alert('이미 서로 친구 상태입니다.');
+            if(db[fId].incomingRequests.includes(userSession.id)) return alert('이미 친구 신청을 보냈습니다. 상대방의 승인을 기다려주세요.');
+
+            db[fId].incomingRequests.push(userSession.id);
+            db[userSession.id].sentRequests.push(fId);
+            saveServer(db);
+            document.getElementById('side-friend-id').value = '';
+            alert(`${fId}님에게 궤도 주파수 친구 신청을 전송했습니다!`);
+        }
+
+        function renderRequestsUI() {
+            const container = document.getElementById('requests-container'); container.innerHTML = '';
+            if(!userSession.incomingRequests || userSession.incomingRequests.length === 0) {
+                container.innerText = '받은 신청이 없습니다.'; return;
+            }
+            userSession.incomingRequests.forEach(reqId => {
+                const row = document.createElement('div'); row.className = 'list-item';
+                row.innerHTML = `<div><strong>🛰️ ${reqId}</strong></div><button class="btn-small" onclick="acceptFriendRequest('${reqId}')">수락</button>`;
+                container.appendChild(row);
+            });
+        }
+
+        function acceptFriendRequest(reqId) {
+            let db = getServer();
+            db[userSession.id].incomingRequests = db[userSession.id].incomingRequests.filter(id => id !== reqId);
+            db[reqId].sentRequests = db[reqId].sentRequests.filter(id => id !== userSession.id);
+
+            if(!db[userSession.id].friends.includes(reqId)) db[userSession.id].friends.push(reqId);
+            if(!db[reqId].friends.includes(userSession.id)) db[reqId].friends.push(userSession.id);
+
+            saveServer(db); alert(`${reqId}님과 위성 궤도가 상호 연결되었습니다!`); openWindow('win-dashboard');
+        }
+
+        function updateSidebarFriends() {
+            const box = document.getElementById('friend-list-render'); box.innerHTML = '';
+            if(!userSession.friends || userSession.friends.length === 0) {
+                box.innerHTML = `<span style="font-size:0.75rem; color:#636e72;" class="hide-on-collapse">연결된 친구가 없습니다.</span>`; return;
+            }
+            userSession.friends.forEach(fId => {
+                const card = document.createElement('div'); card.className = 'friend-card';
+                card.innerHTML = `<div onclick="warpFriendSpace('${fId}')" style="flex:1;"><strong style="color:#ffeaa7;">🛰️</strong> <span class="hide-on-collapse">${fId}</span></div>`;
+                box.appendChild(card);
+            });
+        }
+
+        function warpFriendSpace(fId) {
+            let db = getServer(); if(!db[fId]) return alert('대상 유저가 존재하지 않습니다.');
+            activeFriendData = { id: fId, ...db[fId] };
+            db[fId].visitor += 1; saveServer(db);
+            document.getElementById('friend-title').innerText = `${activeFriendData.id} 우주민의 행성 궤도`;
+            openWindow('win-friend');
+            renderPlanetView('friend', activeFriendData.color, activeFriendData.pattern, activeFriendData.equipped);
+            document.getElementById('milkyway-particle-zone').innerHTML = '';
+        }
+
+        function voteFriendAndEffect() {
+            userSession.coins += 20; let db = getServer(); db[userSession.id].coins = userSession.coins; saveServer(db); syncUIWithCoins();
+            const particleZone = document.getElementById('milkyway-particle-zone'); particleZone.innerHTML = '';
+            for(let i = 0; i < 25; i++) {
+                setTimeout(() => {
+                    const star = document.createElement('div'); star.className = 'stream-star';
+                    star.style.left = `${Math.random() * 85 + 5}%`; star.style.top = `-10px`;
+                    const colors = ['#00ffcc', '#b5deff', '#ffeaa7', '#fd79a8', '#ffffff'];
+                    star.style.background = `linear-gradient(to bottom, ${colors[i % 5]}, rgba(255,255,255,0))`;
+                    particleZone.appendChild(star); setTimeout(() => star.remove(), 1200);
+                }, i * 40);
+            }
+            alert('응원의 은하 빔 전송 완료! 받은 친구의 화면 궤도에 실시간 은하수가 떨어집니다. (+20별 보상)');
+        }
+
+        function startTest() { testIdx = 0; testBucket = {'pastel-green':0, 'pastel-blue':0, 'pastel-red':0}; renderTest(); }
+        function renderTest() {
+            document.getElementById('test-step').innerText = `정서 검사 중 (${testIdx+1}/10)`;
+            const node = qaData[testIdx]; document.getElementById('test-q').innerText = node.q;
+            const div = document.getElementById('test-options'); div.innerHTML = '';
+            node.opts.forEach(o => {
+                const b = document.createElement('button'); b.className = 'option-btn'; b.innerText = o.t;
+                b.onclick = () => { testBucket[o.s]++; if(testIdx < 9) { testIdx++; renderTest(); } else { endTest(); } };
+                div.appendChild(b);
+            });
+        }
+        function endTest() {
+            const finalColor = Object.keys(testBucket).reduce((a, b) => testBucket[a] > testBucket[b] ? a : b);
+            userSession.color = finalColor; let db = getServer(); db[userSession.id].color = finalColor; saveServer(db);
+            alert('정밀 정서 주파수 진단이 완료되어 어울리는 행성 색상이 배정되었습니다.'); openWindow('win-dashboard');
+        }
+
+        const questTasks = [
+            "창문 열고 햇빛 3분 쬐기", "시원한 물 가볍게 한 컵 마시기", "책상 위 물건 3개 정돈하기", "5회 깊게 심호흡하기", "거울 보고 미소 지어보기",
+            "목과 어깨 스트레칭하기", "좋아하는 음악 1곡 감상", "내 감정 상태 종이에 적기", "손 씻으며 물 감각에 집중", "스마트폰 멀리 두고 허리 펴기",
+            "행복했던 기억 회상하기", "따뜻한 음료 음미하기", "제자리걸음 30초 수행", "주변 초록색 물건 3개 찾기", "자신에게 수고했다고 말하기",
+            "먼 풍경 바라보기", "상상 속 상자에 고민 가두기", "귀여운 동물 사진 보기", "내 심장박동 느껴보기", "나에게 쓰는 응원 편지 한 줄",
+            "신체 긴장 툭 풀어주기", "이불 정리하기", "기지개 시원하게 켜기", "행성 화면 보며 멍 때리기", "손끝 가볍게 지압하기",
+            "감사한 일 한 가지 생각", "발가락 힘주었다 빼기", "책 아무 문장 소리내 읽기", "오늘의 작은 규칙 1개 선포", "손바닥 비벼 온기 느끼기"
+        ];
+
+        function renderQuestList() {
+            const container = document.getElementById('quest-container'); container.innerHTML = '';
+            const isDay1Cleared = userSession.cleared.includes(1);
+            const day1 = document.createElement('div'); day1.className = 'list-item';
+            day1.innerHTML = `<div><strong>🎯 1일차 미션: 우주쓰레기 수거</strong><span>🗑️ 날아다니는 파편을 조각 청소하는 미니게임</span></div><button class="btn-small" style="background:${isDay1Cleared ? '#57606f':'#7b2ff7'};" ${isDay1Cleared ? 'disabled':''} onclick="launchTrashGame()">${isDay1Cleared ? '완료됨':'진입하기'}</button>`;
+            container.appendChild(day1);
+
+            for(let i = 2; i <= 30; i++) {
+                const isCleared = userSession.cleared.includes(i);
+                const row = document.createElement('div'); row.className = 'list-item';
+                row.innerHTML = `<div><strong>🎯 ${i}일차 미션: ${questTasks[i-1]}</strong><span>⏱️ 행동 활성화 치유 수칙 (3분 소요)</span></div><button class="btn-small" style="background:${isCleared ? '#57606f':'#00cec9'};" ${isCleared ? 'disabled':''} onclick="completeActionQuest(${i})">${isCleared ? '완료됨':'+50별 수령'}</button>`;
+                container.appendChild(row);
+            }
+        }
+
+        let trashLeft = 5;
+        function launchTrashGame() {
+            if(userSession.cleared.includes(1)) return; openWindow('win-game1'); trashLeft = 5;
+            document.getElementById('trash-count').innerText = `남은 파편: ${trashLeft}개`;
+            document.getElementById('success-banner').style.display = 'none'; document.getElementById('btn-game-exit').style.display = 'none';
+            const zone = document.getElementById('game-zone'); zone.innerHTML = ''; const emojis = ['🛢️', '🥫', '🔩', '📡', '📦'];
+            for(let i = 0; i < 5; i++) {
+                const item = document.createElement('div'); item.className = 'trash'; item.innerText = emojis[i];
+                item.style.left = `${Math.random() * 80 + 5}%`; item.style.top = `${Math.random() * 70 + 10}%`;
+                item.onclick = function() {
+                    this.remove(); trashLeft--; document.getElementById('trash-count').innerText = `남은 파편: ${trashLeft}개`;
+                    if (trashLeft === 0) {
+                        document.getElementById('success-banner').style.display = 'block'; document.getElementById('btn-game-exit').style.display = 'inline-block';
+                        userSession.coins += 10; userSession.cleared.push(1);
+                        let db = getServer(); db[userSession.id].coins = userSession.coins; db[userSession.id].cleared = userSession.cleared; saveServer(db); syncUIWithCoins();
+                    }
+                };
+                zone.appendChild(item);
+            }
+        }
+
+        function completeActionQuest(dayIdx) {
+            if(userSession.cleared.includes(dayIdx)) return;
+            userSession.coins += 50; userSession.cleared.push(dayIdx);
+            let db = getServer(); db[userSession.id].coins = userSession.coins; db[userSession.id].cleared = userSession.cleared; saveServer(db);
+            syncUIWithCoins(); alert(`${dayIdx}일차 치유 행동 완수! ⭐ 50별이 전송되었습니다.`); renderQuestList();
+        }
+
+        const shopProducts = [
+            { id: 'ring', name: '황금 토성 고리막', price: 60, icon: '🪐' }, { id: 'moon', name: '치유 위성 미니달', price: 80, icon: '🌙' },
+            { id: 'alien', name: '초록 행성 외계인', price: 40, icon: '👽' }, { id: 'alien_blue', name: '네온 블루 외계인', price: 50, icon: '👾' },
+            { id: 'flower_red', name: '지표 부착 붉은 화초', price: 30, icon: '🌹' }, { id: 'flower_gold', name: '안착형 해바라기별', price: 45, icon: '🌻' },
+            { id: 'crystal', name: '행성 융합 안심수정', price: 70, icon: '💎' }, { id: 'tree', name: '아늑한 치유 거목', price: 40, icon: '🌳' },
+            { id: 'sprout', name: '자라나는 희망 새싹', price: 20, icon: '🌱' }, { id: 'star', name: '행성 표면 낙하별', price: 25, icon: '⭐' },
+            { id: 'ufo', name: '원형 궤도 미니 UFO', price: 65, icon: '🛸' }, { id: 'satellite', name: '감정 분석 인공위성', price: 55, icon: '🛰️' },
+            { id: 'whale', name: '우주 유형 고래 크루', price: 90, icon: '🐋' }, { id: 'cat', name: '포근한 은하 고양이', price: 50, icon: '🐱' },
+            { id: 'rabbit', name: '치유의 달빛 토끼', price: 50, icon: '🐰' }, { id: 'cloud', name: '잔잔한 마음의 조각구름', price: 30, icon: '☁️' },
+            { id: 'rainbow', name: '희망 충전 우주 무지개', price: 60, icon: '🌈' }, { id: 'mushroom', name: '지표 안착 은하 버섯', price: 25, icon: '🍄' },
+            { id: 'heart', name: '정서 지지 하트 별빛', price: 35, icon: '💖' }, { id: 'clover', name: '행운 증폭 네잎클로버', price: 30, icon: '🍀' },
+            { id: 'bubble', name: '잡념 정화 보글 방울', price: 20, icon: '🫧' }, { id: 'butterfly', name: '생기 충전 우주 나비', price: 35, icon: '🦋' }
+        ];
+
+        function initShopDOM() {
+            const block = document.getElementById('shop-container'); block.innerHTML = '';
+            shopProducts.forEach(p => {
+                const row = document.createElement('div'); row.className = 'list-item';
+                row.innerHTML = `<div><strong>${p.icon} ${p.name}</strong><span>가방 보관용 라이선스 오브젝트</span></div><button class="btn-small" style="background:#6c5ce7" id="sbtn-${p.id}" onclick="buyObject('${p.id}', ${p.price})">⭐ ${p.price}</button>`;
+                block.appendChild(row);
+            });
+        }
+
+        function updateShopPage() {
+            shopProducts.forEach(p => {
+                const btn = document.getElementById(`sbtn-${p.id}`); if (!btn || !userSession) return;
+                if (userSession.items.includes(p.id)) { btn.innerText = "소유함"; btn.style.background = "#2d3436"; btn.disabled = true; }
+                else { btn.innerText = `⭐ ${p.price}`; btn.style.background = "#6c5ce7"; btn.disabled = false; }
+            });
+        }
+
+        function buyObject(itemId, price) {
+            if(userSession.coins < price) return alert('스타 은하별이 부족합니다! 📜 치유 퀘스트를 수행하고 수확해오세요.');
+            userSession.coins -= price; userSession.items.push(itemId);
+            let db = getServer(); db[userSession.id].coins = userSession.coins; db[userSession.id].items = userSession.items; saveServer(db);
+            syncUIWithCoins(); updateShopPage(); alert('아이템 구매 성공! 가방(인벤토리)에서 확인 가능합니다.');
+        }
+
+        window.onload = () => {
+            initShopDOM();
+            const savedUserId = localStorage.getItem('GALAXY_CURRENT_SESSION_USER');
+            if (savedUserId) {
+                let db = getServer();
+                if (db && db[savedUserId]) { executeLoginSession(savedUserId, db[savedUserId]); return; }
+            }
+            openWindow('win-home');
+        };
+    </script>
+</body>
+</html>
